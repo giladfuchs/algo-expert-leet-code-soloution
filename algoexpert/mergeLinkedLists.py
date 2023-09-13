@@ -1,8 +1,4 @@
-# This is an input class. Do not edit.
-class LinkedList:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
+from algoexpert.LinkdLIstCreation import LinkedList, create_list
 
 
 def mergeLinkedLists(headOne, headTwo):
@@ -34,14 +30,7 @@ def mergeLinkedLists(headOne, headTwo):
     return head_res
 
 
-def create_list(ls):
-    head = LinkedList(ls[0].get('value'))
-    tail = LinkedList(ls[1].get('value'))
-    head.next = tail
-    for _ in ls[2:]:
-        tail.next = LinkedList(_.get('value'))
-        tail = tail.next
-    return head
+
 
 
 if __name__ == '__main__':
