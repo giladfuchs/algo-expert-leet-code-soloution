@@ -1,4 +1,3 @@
-
 def fib(n):
     if n < 2:
         return n
@@ -8,7 +7,9 @@ def fib(n):
     else:
         return fib((n + 1) // 2 - 1) * fib((n + 1) // 2 - 1) + fib((n + 1) // 2) * fib((n + 1) // 2)
 
-def getNthFib(n):
-    return fib(n-1)
 
-print(getNthFib(6))
+def getNthFib(n):
+    return fib(n + 1)
+
+
+print(getNthFib(3))

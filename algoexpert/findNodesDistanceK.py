@@ -52,7 +52,7 @@ if __name__ == '__main__':
                                                                             "value": 8}), "value": 6}),
                                               "value": 3}), "value": 1})
 
-    bb = {"tree": tr,
+    bb = {"node": tr,
           "target": 3,
           "k": 2
           }

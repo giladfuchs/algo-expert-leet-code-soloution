@@ -5,8 +5,29 @@ class BST:
         self.left = left
         self.right = right
 
+
 class BinaryTree(BST):
-    pass
+    def insert(self, num):
+        if num <= self.value:
+            if self.left is not None:
+                self.left.insert(num)
+            else:
+                self.left = BinaryTree(num)
+        else:
+            if self.right is not None:
+                self.right.insert(num)
+            else:
+                self.right = BinaryTree(num)
+
+
+def array_to_binary_tree(array: list):
+    if not array:
+        return None
+    root = BST(array.pop(0))
+
+    return root
+
+
 def find_by_id(nodes, _id):
     return next((_ for _ in nodes if _.get('id') == _id), None)
 
