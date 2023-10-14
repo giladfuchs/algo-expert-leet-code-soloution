@@ -6,9 +6,10 @@ class LinkedList:
 
 def create_list(ls):
     head = LinkedList(ls[0].get('value'))
-    tail = LinkedList(ls[1].get('value'))
-    head.next = tail
-    for _ in ls[2:]:
-        tail.next = LinkedList(_.get('value'))
-        tail = tail.next
+    if len(ls)>1:
+        tail = LinkedList(ls[1].get('value'))
+        head.next = tail
+        for _ in ls[2:]:
+            tail.next = LinkedList(_.get('value'))
+            tail = tail.next
     return head
