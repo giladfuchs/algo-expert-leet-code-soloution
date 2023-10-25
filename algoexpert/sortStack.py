@@ -1,11 +1,19 @@
 def sortStack(stack: list):
-    st_temp = []
-    st_temp.append(stack.pop())
+    if len(stack) <= 1:
+        return stack
 
-    while stack:
-        if st_temp[-1] <= stack[-1]:
-            st_temp.append(stack.pop())
-        else:
-            stack.append(st_temp.pop())
+    first = stack.pop()
+    sortStack(stack)
+    second = stack.pop()
 
-    return []
+    smaller = min(first, second)
+    bigger = max(first, second)
+
+    stack.append(smaller)
+    sortStack(stack)
+    stack.append(bigger)
+
+    return stack
+
+
+print(sortStack([-5, 2, -2, 4, 3, 1]))
