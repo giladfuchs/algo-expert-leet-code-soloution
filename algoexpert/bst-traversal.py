@@ -38,5 +38,5 @@ if __name__ == '__main__':
         "root": "10"
     })
     arr = []
-    postOrderTraverse(tree1, arr)
+    preOrderTraverse(tree1, arr)
     print(arr)
