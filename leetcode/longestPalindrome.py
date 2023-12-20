@@ -17,5 +17,21 @@ class Solution:
             ans = max([odd, even, ans], key=len)
         return ans
 
+    def smallestNumber(self, num: int) -> int:
+        str_num = list(str(abs(num)))
+        if num > 0:
+            str_num.sort()
+            if str_num[0] == '0':
+                i = 1
+                while str_num[i] == '0': i += 1
+                str_num[0], str_num[i] = str_num[i], str_num[0]
+            return int(''.join(str_num))
 
-print(Solution().longestPalindrome("babad"))
+        else:
+            str_num.sort(reverse=True)
+            return -int(''.join(str_num))
+
+
+# print(Solution().longestPalindrome("babad"))
+print(Solution().smallestNumber(310))
+print(Solution().smallestNumber(-7605))

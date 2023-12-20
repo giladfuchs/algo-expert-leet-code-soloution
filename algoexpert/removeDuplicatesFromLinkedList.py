@@ -1,11 +1,7 @@
-# This is an input class. Do not edit.
-class LinkedList:
-    def __init__(self, value):
-        self.value = value
-        self.next = None
+from algoexpert.LinkdLIstCreation import LinkedList
 
 
-def removeDuplicatesFromLinkedList(linkedList):
+def removeDuplicatesFromLinkedList2(linkedList):
     # Write your code here.
     temp: LinkedList = linkedList
     while temp != None:
@@ -13,6 +9,17 @@ def removeDuplicatesFromLinkedList(linkedList):
             temp.next = temp.next.next
         else:
             temp = temp.next
+    return linkedList
+
+
+def removeDuplicatesFromLinkedList(linkedList):
+    # Write your code here.
+    node = linkedList
+    while node:
+        temp = node.next
+        while temp and temp.value == node.value: temp = temp.next
+        node.next = temp
+        node = node.next
     return linkedList
 
 

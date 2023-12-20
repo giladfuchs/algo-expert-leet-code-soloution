@@ -38,3 +38,20 @@ class Solution:
             node1 = node2
             node2 = next_node
 
+    def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if head is None or head.next is None:
+            return head
+        res = head.next
+        prev, cur = None, head
+        while cur and cur.next:
+            nextt = cur.next
+
+            if prev:
+                prev.next = nextt
+
+            nextt.next, cur.next = cur, nextt.next
+            prev, cur = cur, cur.next
+        return res
+
+
+print(Solution().swapPairs(ListNode(1, ListNode(2, ListNode(3, ListNode(4))))))

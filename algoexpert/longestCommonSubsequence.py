@@ -8,7 +8,7 @@ def longestCommonSubsequence(str1, str2):
                 matrix[i][j] = matrix[i-1][j-1] + str2[j-1]
             else:
                 matrix[i][j] = max(matrix[i-1][j], matrix[i][j-1], key=len)
-    return list(matrix[-1][-1])
+    return matrix[-1][-1]
 
 def longestCommonSubsequenceBackTrack(str1, str2):
     str1, str2 = list(str1), list(str2)
@@ -36,5 +36,7 @@ def longestCommonSubsequenceBackTrack(str1, str2):
             ans.append(st)
 
     return ans[::-1]
-
+X = 'OldSite:GeeksforGeeks.org'
+Y = 'NewSite:GeeksQuiz.com'
+print(longestCommonSubsequence(Y, X))
 print(longestCommonSubsequence(list("8111111111111111142"), list("222222222822222222222222222222433333333332")))

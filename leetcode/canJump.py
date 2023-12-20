@@ -1,8 +1,10 @@
+import math
 from typing import List
 
 
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
+
         reachable = 0
 
         for i in range(len(nums)):
@@ -34,7 +36,31 @@ class Solution:
         # Return the minimum number of jumps required
         return count
 
-if __name__ == '__main__':
-    print(Solution().jump([2, 3, 1, 1, 4]))
+
+
+def knightConnection(knightA, knightB):
+    # src = (src // 8, src % 8)
+    # dest = (dest // 8, dest % 8)
+
+    q = deque([(knightA[0], knightA[1], 0)])
+    visited = {(knightA[0], knightA[1])}
+
+    while True:
+        current = q.popleft()
+        if current[0] == knightB[0] and current[1] == knightB[1]:
+            return math.ceil(current[2]/2)
+        for x, y in get_paths((current[0], current[1])):
+            if (x, y) not in visited:
+                q.append((x, y, current[2] + 1))
+                visited.add((x, y))
+
+
+# knightConnection([10, 10], [-10, -10])
+
+# 1+ 2 + 3
+# 1 + 2 + 2+1
+# if __name__ == '__main__':
+    # foo(" '--->-><-><-->-'")
+    # print(Solution().canJump([2, 3, 1, 1, 4]))
     # print(Solution().canJump([2, 3, 1, 1, 4]))
     # print(Solution().canJump([3, 2, 1, 0, 4]))

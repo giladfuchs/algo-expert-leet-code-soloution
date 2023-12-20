@@ -39,5 +39,20 @@ def maxSumIncreasingSubsequence(array):
     return [peak_num, res_seq[::-1]]
 
 
+import functools
+
 print(maxSumIncreasingSubsequence([8, 12, 2, 3, 15, 5, 7]))
+{[]}
+
 # print(maxSumIncreasingSubsequence([10, 70, 20, 30, 50, 11, 30]))
+def foo(arr):
+    s, black = set(), set()
+    elements = [key for key, val in (functools.reduce(lambda x, y: {**x, y: x.get(y, 0) + 1}, arr, {})).values() if
+                val == 1]
+
+    # for num in arr:
+
+    print()
+
+
+foo([1, 2, 2, 3])
