@@ -1,5 +1,6 @@
 from typing import List
 
+from collections import defaultdict
 
 class Solution:
     def numberOfMatches(self, n: int) -> int:
@@ -44,6 +45,24 @@ class Solution:
 
         return res
 
+
+    def longestConsecutive(self, nums: List[int]) -> int:
+        s = set(nums)
+        count = 0
+        for num in nums:
+            if num - 1 not in s:
+
+                i = 1
+                while (num + i) in s:
+                    i += 1
+
+                count = max(count, i)
+        return count
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        d = defaultdict(list)
+        for st in strs:
+            d[sorted(st)].append(st)
+        return list(d.values())
 
 # print(Solution().numberOfMatches(7))
 print(Solution().minSwaps([0, 1, 0, 1, 1, 0, 0]))

@@ -1,3 +1,5 @@
+import math
+
 from algoexpert.TreeCreation import build_tree
 
 
@@ -17,6 +19,23 @@ def findMaxSum(tree):
 def maxPathSum(tree):
     _, max_sum = findMaxSum(tree)
     return max_sum
+
+
+opt = {
+    -1: lambda x, y: x + y,
+    -2: lambda x, y: x - y,
+    -3: lambda x, y: math.trunc(x / y),
+    -4: lambda x, y: x * y,
+}
+
+
+def evaluateExpressionTree(tree):
+    # Write your code here.
+    if tree.value >= 0:
+        return tree.value
+    left = evaluateExpressionTree(tree.left)
+    right = evaluateExpressionTree(tree.right)
+    return opt.get(tree.value)(left, right)
 
 
 if __name__ == '__main__':

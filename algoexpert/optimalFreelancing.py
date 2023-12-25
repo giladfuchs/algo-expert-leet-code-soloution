@@ -1,26 +1,20 @@
 def optimalFreelancing(jobs):
     jobs.sort(key=lambda job: job.get('payment'), reverse=True)
-    day, i = 1, 0
-    res = 0
-    for job in jobs:
-        if day == 7:
-            return res
-        if day < job.get('deadline'):
-            res += job.get('payment')
-            day += 1    
+    res = []
+    deadLines = []
 
-    # while i < len(jobs):
-    #     day += 1
-    #     temp = 0
-    #     while i < len(jobs) and day == jobs[i].get('deadline'):
-    #         temp = max(temp, jobs[i].get('payment'))
-    #         i += 1
-    #     res += temp
-    return res
+    for job in jobs:
+        if len(res) == 7:
+            break
+        deadline = job.get('deadline')
+        if deadline > len(res) or deadline not in deadLines:
+            res.append(job.get('payment'))
+            deadLines.append(deadline)
+
+    return sum(res)
 
 
 print(optimalFreelancing([
-
     {
         "deadline": 2,
         "payment": 1
