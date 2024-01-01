@@ -1,5 +1,7 @@
 from typing import List
 
+from collections import Counter
+
 
 class Solution:
     def minOperations(self, s: str) -> int:
@@ -100,11 +102,65 @@ class Solution:
 
         return int(dp[n][target])
 
+    def maxLengthBetweenEqualCharacters(self, s: str) -> int:
+        maxi = -1
+        d = {}
+        for i, ch in enumerate(s):
+            if ch in d:
+                maxi = max(maxi, i - d[ch] - 1)
+            else:
+                d[ch] = i
+        return maxi
+        # print(Solution().minCost(colors="abaac", neededTime=[1, 2, 3, 4, 5]))
 
-# print(Solution().minCost(colors="abaac", neededTime=[1, 2, 3, 4, 5]))
+    def makeEqual(self, words: List[str]) -> bool:
+        n = len(words)
+        counter = Counter(list(''.join(words)))
+        for val in counter.values():
+            if val % n != 0:
+                return False
+        return True
+
+    def compress(self, chars: List[str]) -> int:
+        n = len(chars)
+        i = 1
+        while i < n:
+            count = 1
+            while i < n and chars[i] == chars[i - 1]:
+                chars.pop(i)
+                count += 1
+            if count > 1:
+                chars = chars[:i] + list(str(count)) + chars[i:]
+                i += len(str(count))
+            i += 1
+        return len(chars)
+
+    def findContentChildren(self, g: List[int], s: List[int]) -> int:
+        g.sort()
+        s.sort()
+        i, j = 0, 0
+        while i < len(g) and j < len(s):
+            if g[i] <= s[j]:
+                i += 1
+            j += 1
+        return i
+
+    def maxScore(self, s: str) -> int:
+        maxi = zeros = 0
+        ones = s.count('1')
+        for i in range(len(s) - 1):
+            ones -= int(s[i] == '1')
+            zeros += int(s[i] == '0')
+            maxi = max(maxi, zeros + ones)
+        return maxi
+
+
 # print(Solution().minCost(colors="aabaa", neededTime=[1, 2, 3, 4, 1]))
 # print(Solution().numRollsToTarget(n=1, k=6, target=3))
-print(Solution().numRollsToTarget(n = 2, k = 6, target = 7))
+# print(Solution().numRollsToTarget(n=2, k=6, target=7))
+print(Solution().compress(["a", "a", "b", "b", "c", "c", "c"]))
+# print(Solution().makeEqual(["abc", "aabc", "bc"]))
+# print(Solution().maxLengthBetweenEqualCharacters(s="mgntdygtxrvxjnwksqhxuxtrv"))
 # print(Solution().numDecodings("11106"))
 # print(Solution().onesMinusZeros([[0, 1, 1], [1, 0, 1], [0, 0, 1]]))
 # print(Solution().isPathCrossing("NES"))
