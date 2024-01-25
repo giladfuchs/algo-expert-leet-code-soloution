@@ -1,6 +1,6 @@
 from typing import List
 
-from collections import Counter
+from collections import Counter, deque, defaultdict
 
 
 class Solution:
@@ -154,11 +154,127 @@ class Solution:
             maxi = max(maxi, zeros + ones)
         return maxi
 
+    def findMatrix2(self, nums: List[int]) -> List[List[int]]:
+        res = [set()]
+        for num in nums:
+            i = 0
+            while i < len(res) and num in res[i]: i += 1
+            if i < len(res):
+                res[i].add(num)
+            else:
+                res.append(set([num]))
+        for i in range(len(res)):
+            res[i] = list(res[i])
+        return res
+
+    def findMatrix(self, nums: List[int]) -> List[List[int]]:
+
+        counter = [-1] * (len(nums) + 1)
+        res = []
+        for num in nums:
+            counter[num] += 1
+            if counter[num] == len(res):
+                res.append([])
+            res[counter[num]].append(num)
+
+        return res
+
+    def buyChoco(self, prices: List[int], money: int) -> int:
+        min1, min2 = float('inf'), float('inf')
+        for price in prices:
+            if price < min1:
+                min1 = price
+                if min1 < min2:
+                    min1, min2 = min2, min1
+        return money if min1 + min2 > money else money - (min1 + min2)
+
+    def maxFrequency(self, nums: List[int], k: int) -> int:
+        window = deque()
+        pre = 0
+        ans = []
+        for cur in sorted(nums):
+            k -= (cur - pre) * len(window)
+            while k < 0:
+                k += cur - window.popleft()
+            window.append(cur)
+            ans.append(len(window))
+            pre = cur
+        return max(ans)
+
+    def numberOfBeams(self, bank: List[str]) -> int:
+        prev = count = 0
+        for row in bank:
+            if temp := row.count('1'):
+                count += temp * prev
+                prev = temp
+        return count
+
+    def minOperations2(self, nums: List[int]) -> int:
+        counter = Counter(nums)
+        count = 0
+        for val in counter.values():
+            if val == 1:
+                return -1
+            count += val // 3
+            if val % 3 != 0:
+                count += 1
+
+        return count
+        # elif val % 3 == 1:
+        #     temp = val
+        #     temp
+        #
+        # elif val % 3 == 2:
+        #     count += val // 3 + 1
+
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        n = len(nums)
+        dp = [1] * n
+        for i in range(1, n):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+
+        return max(dp)
+
+    def minLength(self, s: str) -> int:
+        stack = []
+        index = 0
+        while index < len(s):
+            if not stack:
+                stack.append(s[index])
+            elif (stack[-1] == 'A' and s[index] == 'B') or (stack[-1] == 'C' and s[index] == 'D'):
+                stack.pop()
+            else:
+                stack.append(s[index])
+            index += 1
+        return len(stack)
+
+    def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+        lose_count = defaultdict(int)
+        all_game = set()
+        for win, lose in matches:
+            lose_count[lose] += 1
+            all_game.add(win)
+            all_game.add(lose)
+        answer0 = [win for win in all_game if win not in lose_count.keys()]
+        answer1 = [key for key, val in lose_count.items() if val == 1]
+        answer0.sort()
+        answer1.sort()
+        return [answer0, answer1]
+
+
+print(
+    Solution().findWinners(matches=[[1, 3], [2, 3], [3, 6], [5, 6], [5, 7], [4, 5], [4, 8], [4, 9], [10, 4], [10, 9]]))
+# print(Solution().minLength("ABFCACDB"))
+
+# print(Solution().numberOfBeams(["011001", "000000", "010100", "001000"]))
+# print(Solution().maxFrequency([1, 2, 4], 5))
 
 # print(Solution().minCost(colors="aabaa", neededTime=[1, 2, 3, 4, 1]))
 # print(Solution().numRollsToTarget(n=1, k=6, target=3))
 # print(Solution().numRollsToTarget(n=2, k=6, target=7))
-print(Solution().compress(["a", "a", "b", "b", "c", "c", "c"]))
+# print(Solution().compress(["a", "a", "b", "b", "c", "c", "c"]))
 # print(Solution().makeEqual(["abc", "aabc", "bc"]))
 # print(Solution().maxLengthBetweenEqualCharacters(s="mgntdygtxrvxjnwksqhxuxtrv"))
 # print(Solution().numDecodings("11106"))
@@ -166,4 +282,7 @@ print(Solution().compress(["a", "a", "b", "b", "c", "c", "c"]))
 # print(Solution().isPathCrossing("NES"))
 # print(Solution().isPathCrossing("NESWW"))
 # print(Solution().minOperations("10"))
+# print(Solution().minOperations2([2, 3, 3, 2, 2, 4, 2, 3, 4]))
+# print(Solution().lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]))
 # print(Solution().minOperations("1111"))
+# print(Solution().findMatrix([1, 3, 4, 1, 2, 3, 1]))

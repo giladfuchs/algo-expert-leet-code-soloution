@@ -53,5 +53,29 @@ class Solution:
             prev, cur = cur, cur.next
         return res
 
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        count = 0
+        mul = 1
+        while l1 and l2:
+            count += mul * (l1.val + l2.val)
+            l1 = l1.next
+            l2 = l2.next
+            mul *= 10
+        while l1:
+            count += mul * (l1.val)
+            l1 = l1.next
+            mul *= 10
+        while l2:
+            count += mul * (l2.val)
+            l2 = l2.next
+            mul *= 10
+        count = str(count)[::-1]
+        head = temp = ListNode(int(count[0]))
+        for num in count[1:]:
+            temp.next = ListNode(int(num))
+            temp = temp.next
+
+        return head
+
 
 print(Solution().swapPairs(ListNode(1, ListNode(2, ListNode(3, ListNode(4))))))
