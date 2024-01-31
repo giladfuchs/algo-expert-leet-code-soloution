@@ -18,24 +18,26 @@ class Solution:
         return True
 
     def jump(self, nums):
-        # Initialize reach (maximum reachable index), count (number of jumps), and last (rightmost index reached)
         reach, count, last = 0, 0, 0
 
-        # Loop through the array excluding the last element
         for i in range(len(nums) - 1):
-            # Update reach to the maximum between reach and i + nums[i]
             reach = max(reach, i + nums[i])
 
-            # If i has reached the last index that can be reached with the current number of jumps
             if i == last:
-                # Update last to the new maximum reachable index
                 last = reach
-                # Increment the number of jumps made so far
                 count += 1
 
-        # Return the minimum number of jumps required
         return count
 
+    def twoSum(self, numbers: List[int], target: int) -> List[int]:
+        left, right = 0, len(numbers) - 1
+        while left < right:
+            if numbers[left] + numbers[right] == target:
+                return [left + 1, right + 1]
+            if numbers[left] + numbers[right] < target:
+                left += 1
+            else:
+                right -= 1
 
 
 def knightConnection(knightA, knightB):
@@ -48,19 +50,18 @@ def knightConnection(knightA, knightB):
     while True:
         current = q.popleft()
         if current[0] == knightB[0] and current[1] == knightB[1]:
-            return math.ceil(current[2]/2)
+            return math.ceil(current[2] / 2)
         for x, y in get_paths((current[0], current[1])):
             if (x, y) not in visited:
                 q.append((x, y, current[2] + 1))
                 visited.add((x, y))
-
 
 # knightConnection([10, 10], [-10, -10])
 
 # 1+ 2 + 3
 # 1 + 2 + 2+1
 # if __name__ == '__main__':
-    # foo(" '--->-><-><-->-'")
-    # print(Solution().canJump([2, 3, 1, 1, 4]))
-    # print(Solution().canJump([2, 3, 1, 1, 4]))
-    # print(Solution().canJump([3, 2, 1, 0, 4]))
+# foo(" '--->-><-><-->-'")
+# print(Solution().canJump([2, 3, 1, 1, 4]))
+# print(Solution().canJump([2, 3, 1, 1, 4]))
+# print(Solution().canJump([3, 2, 1, 0, 4]))

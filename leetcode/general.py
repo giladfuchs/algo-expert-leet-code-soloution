@@ -263,10 +263,76 @@ class Solution:
         answer1.sort()
         return [answer0, answer1]
 
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        n, m = len(text1) + 1, len(text2) + 1
+        mat = [['' for _ in range(m)] for __ in range(n)]
+        for i in range(1, n):
+            for j in range(1, m):
+                if text1[i - 1] == text2[j - 1]:
+                    mat[i][j] = f'{mat[i - 1][j - 1]}{text2[j - 1]}'
+                else:
+                    mat[i][j] = max([mat[i - 1][j], mat[i][j - 1]], key=len)
+        return len(mat[-1][-1])
 
-print(
-    Solution().findWinners(matches=[[1, 3], [2, 3], [3, 6], [5, 6], [5, 7], [4, 5], [4, 8], [4, 9], [10, 4], [10, 9]]))
+    def removeDuplicateLetters(self, s: str) -> str:
+        st = []
+        for i in range(len(s)):
+            if s[i] not in st:
+                j = len(st) - 1
+                while j >= 0 and st[j] > s[i] and st[j] in s[i + 1:]:
+                    st.pop()
+                    j -= 1
+                st.append(s[i])
+        return ''.join(st)
+
+    def findTheDifference(self, s: str, t: str) -> str:
+        s_c, t_c = [0] * 26, [0] * 26
+        for c in s:
+            s_c[ord(c) - ord('a')] += 1
+        for c in t:
+            t_c[ord(c) - ord('a')] += 1
+        for i in range(26):
+            if s_c[i] < t_c[i]:
+                return chr(ord('a') + i)
+
+    def minPairSum(self, nums: List[int]) -> int:
+        nums.sort()
+        ans = 0
+        left, right = 0, len(nums) - 1
+        while left < right:
+            ans = max(ans, nums[left] + nums[right])
+            left += 1
+            right -= 1
+        return ans
+
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        prev, cur = cost[0], cost[1]
+        for co in cost[2:]:
+            temp = min(cur, prev) + co
+            prev = cur
+            cur = temp
+        return min(cur, prev)
+
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
+        st = []
+        for i, temp in enumerate(temperatures):
+            while st and temperatures[st[-1]] < temp:
+                index = st.pop()
+                res[index] = i - index
+            st.append(i)
+        return res
+
+
+# print(Solution().findWinners(matches=[[1, 3], [2, 3], [3, 6], [5, 6], [5, 7], [4, 5], [4, 8], [4, 9], [10, 4], [10, 9]]))
+print(Solution().dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]))
 # print(Solution().minLength("ABFCACDB"))
+# print(Solution().minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
+# print(Solution().minCostClimbingStairs([10,15,20]))
+
+# print(Solution().longestCommonSubsequence(text1="abcde", text2="ace"))
+# print(Solution().findTheDifference(s="bcab", t="bcabe"))
+# print(Solution().findTheDifference(s="bcabc"))
 
 # print(Solution().numberOfBeams(["011001", "000000", "010100", "001000"]))
 # print(Solution().maxFrequency([1, 2, 4], 5))
