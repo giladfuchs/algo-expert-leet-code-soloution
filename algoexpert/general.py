@@ -1,0 +1,58 @@
+def reversePolishNotation(tokens):
+    st = []
+    res = 0
+    for t in tokens:
+        if t in ['/', '*', '+', '-']:
+            num1 = st.pop()
+            num2 = st.pop()
+            if t == '/':
+                num2 /= num1
+            elif t == '*':
+                num2 *= num1
+            elif t == '+':
+                num2 += num1
+            elif t == '-':
+                num2 -= num1
+            st.append(int(num2))
+        else:
+            st.append(int(t))
+    return int(st[-1])
+
+
+def majorityElement(array):
+    res = array[0]
+    count = 1
+    for num in array[1:]:
+        if num == res:
+            count += 1
+        else:
+            count -= 1
+        if count == 0:
+            res = num
+            count = 1
+    return res
+
+
+def collidingAsteroids(asteroids):
+    st = []
+    for ast in asteroids:
+        if ast > 0:
+            st.append(ast)
+            continue
+
+        while True:
+            if not st or st[-1] < 0:
+                st.append(ast)
+                break
+
+            abs_ast = abs(ast)
+            if st[-1] > abs_ast:
+                break
+            if st[-1] == abs_ast:
+                st.pop()
+                break
+            st.pop()
+
+    return st
+
+# print(reversePolishNotation(["4", "-7", "2", "6", "+", "10", "-", "/", "*", "2", "+", "3", "*"]))

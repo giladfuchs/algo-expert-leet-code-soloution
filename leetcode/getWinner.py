@@ -157,7 +157,8 @@ class Solution:
     # print(Solution().largestNumber([3, 30, 34, 5, 9]))
 
 
-print(Solution().majorityElement3([3,2,3]))
+print(Solution().sumSubarrayMins([3,1,2,4]))
+# print(Solution().majorityElement3([3,2,3]))
 # print(Solution().rob([2, 1, 1, 2]))
 # print(Solution().trailingZeroes(7))
 # print(Solution().minFallingPathSum([[2, 1, 3], [6, 5, 4], [7, 8, 9]]))

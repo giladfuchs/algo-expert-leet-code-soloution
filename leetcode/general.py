@@ -323,9 +323,125 @@ class Solution:
             st.append(i)
         return res
 
+    def countPalindromicSubsequence(self, s: str) -> int:
+        ans = 0
+        for i in range(26):
+            c = chr(ord('a') + i)
+            if c in s:
+                left = s.index(c)
+                right = s.rindex(c)
+                if left != right:
+                    diff = set()
+                    for index in range(left + 1, right):
+                        diff.add(s[index])
+                    ans += len(diff)
+        return ans
+
+    def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
+        size = len(nums)
+        if size % 3 != 0:
+            return []
+        nums.sort()
+        ans = []
+        for i in range(0, size, 3):
+            if i + 2 < size and nums[i + 2] - nums[i] <= k:
+                ans.append([nums[i], nums[i + 1], nums[i + 2]])
+            else:
+                return []
+        return ans
+
+    def countCharacters(self, words: List[str], chars: str) -> int:
+        count = 0
+        for w in words:
+            good = True
+            for c in w:
+                if chars.count(c) < w.count(c):
+                    good = False
+                    break
+            if good:
+                count += len(w)
+        return count
+
+    def largestSubmatrix(self, matrix: List[List[int]]) -> int:
+        rows, cols = len(matrix), len(matrix[0])
+        res = 0
+        prev_height = [0] * cols
+        for r in range(rows):
+            height = matrix[r].copy()
+            for c in range(cols):
+                if height[c] > 0:
+                    height[c] += prev_height[c]
+
+            sorted_height = sorted(height, reverse=True)
+            for i in range(cols):
+                res = max(res, (i + 1) * sorted_height[i])
+            prev_height = height
+
+        return res
+
+    def closeStrings(self, word1: str, word2: str) -> bool:
+        counter1 = [0] * 26
+        counter2 = [0] * 26
+        if len(word1) != len(word2):
+            return False
+        for c in word1:
+            counter1[ord(c) - ord('a')] += 1
+        for c in word2:
+            counter2[ord(c) - ord('a')] += 1
+
+        for i in range(26):
+            if (counter1[i] == 0 and counter2[i] != 0) or \
+                    (counter1[i] != 0 and counter2[i] == 0):
+                return False
+        return sorted(counter1) == sorted(counter2)
+
+    def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+        cache = {}
+
+        def dfs(i):
+            if i in cache:
+                return cache[i]
+            cur_max, res = 0, 0
+            for j in range(i, min(len(arr), i + k)):
+                cur_max = max(cur_max, arr[j])
+                size = j - i + 1
+                res = max(res, dfs(j + 1) + cur_max * size)
+            cache[i] = res
+            return res
+
+        return dfs(0)
+
+    def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
+        n, m = len(nums1), len(nums2)
+        total = n + m
+        half = total // 2
+        if m < n:
+            n, m = m, n
+            nums1, nums2 = nums2, nums1
+        left, right = 0, n - 1
+
+        while True:
+            i = (left + right) // 2
+            j = half - i - 2
+            aLeft = nums1[i] if i >= 0 else float("-inf")
+            aRight = nums1[i + 1] if i + 1 < n else float("inf")
+            bLeft = nums2[j] if j >= 0 else float("-inf")
+            bRight = nums2[j + 1] if j + 1 < m else float("inf")
+
+            if aLeft <= bRight and bLeft <= aRight:
+                if total % 2 != 0:
+                    return min(aRight, bRight)
+                return (max(aLeft, bLeft) + min(aRight, bRight)) / 2
+            elif aLeft > bRight:
+                right = i - 1
+            else:
+                left= i+1
+
 
 # print(Solution().findWinners(matches=[[1, 3], [2, 3], [3, 6], [5, 6], [5, 7], [4, 5], [4, 8], [4, 9], [10, 4], [10, 9]]))
-print(Solution().dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]))
+# print(Solution().dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]))
+# print(Solution().divideArray(nums=[1, 3, 4, 8, 7, 9, 3, 5, 1], k=2))
+# print(Solution().countPalindromicSubsequence("bbcbaba"))
 # print(Solution().minLength("ABFCACDB"))
 # print(Solution().minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
 # print(Solution().minCostClimbingStairs([10,15,20]))
