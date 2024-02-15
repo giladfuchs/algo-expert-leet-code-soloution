@@ -55,4 +55,30 @@ def collidingAsteroids(asteroids):
 
     return st
 
+
 # print(reversePolishNotation(["4", "-7", "2", "6", "+", "10", "-", "/", "*", "2", "+", "3", "*"]))
+def moveElementToEnd(array, toMove):
+    start, end = 0, len(array) - 1
+
+    while start < end:
+        while start < end and array[end] == toMove:
+            end -= 1
+        if array[start] == toMove:
+            array[start], array[end] = array[end], array[start]
+            end -= 1
+        start += 1
+    return array
+
+
+# print(moveElementToEnd([2, 1, 2, 2, 2, 3, 4, 2], 2))
+def zeroSumSubarray(nums):
+    sums = set([0])
+    curr = 0
+    for num in nums:
+        curr += num
+        if curr in sums:
+            return True
+        sums.add(curr)
+    return False
+
+print(zeroSumSubarray([-5, -5, 2,1, 3, -2]))

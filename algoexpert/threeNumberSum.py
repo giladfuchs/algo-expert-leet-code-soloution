@@ -121,7 +121,16 @@ class BST:
         self.right = None
 
 
+def validateBstHelp(tree, min_val, max_val):
+    if tree is None:
+        return True
+    if tree.value < min_val or tree.value >= max_val:
+        return False
+    return validateBstHelp(tree.left, tree.value, max_val) and validateBstHelp(tree.right, min_val, tree.value)
+
+
 def validateBst(tree):
+    return validateBstHelp(tree, float('-inf'), float('inf'))
     # Write your code here.
     if tree == None:
         return True

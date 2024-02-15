@@ -19,7 +19,6 @@ class Solution:
 
         return dfs(0)
 
-
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
         n, m = len(nums1), len(nums2)
         total = n + m
@@ -46,4 +45,18 @@ class Solution:
             else:
                 left = i + 1
 
-print(Solution().maxSumAfterPartitioning(arr=[1, 15, 7, 9, 2, 5, 10], k=3))
+    def numSquares(self, n: int) -> int:
+        dp = [n] * (n + 1)
+        dp[0] = 0
+        for target in range(1, n + 1):
+            for s in range(1, target + 1):
+                squ = s * s
+                if target - squ < 0:
+                    break
+                if dp[target - squ] + 1 < dp[target]:
+                    dp[target] = dp[target - squ] + 1
+        return dp[n]
+
+
+# print(Solution().maxSumAfterPartitioning(arr=[1, 15, 7, 9, 2, 5, 10], k=3))
+# print(Solution().numSquares(12))

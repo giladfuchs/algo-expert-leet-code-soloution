@@ -137,6 +137,23 @@ class Solution:
         helper(root, root.val, root.val)
         return self.max_dis
 
+    def largestValues(self, root: Optional[TreeNode]) -> List[int]:
+        if not root:
+            return []
+        ans = []
+        st = [root]
+        while st:
+            temp = []
+            for _ in range(len(st)):
+                node = st.pop(0)
+                temp.append(node.val)
+                if node.left:
+                    st.append(node.left)
+                if node.right:
+                    st.append(node.right)
+            ans.append(max(temp))
+        return ans
+
 
 import time
 
@@ -163,4 +180,5 @@ a = TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5)),
 # print(Solution().evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
 # print(Solution().evalRPN(["4","13","5","/","+"]))
 # print(Solution().isBalanced(a))
-print(Solution().leafSimilar(a, a))
+print(Solution().largestValues(a))
+# print(Solution().leafSimilar(a, a))

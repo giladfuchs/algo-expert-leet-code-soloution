@@ -435,17 +435,120 @@ class Solution:
             elif aLeft > bRight:
                 right = i - 1
             else:
-                left= i+1
+                left = i + 1
+
+    def backspaceCompare(self, s: str, t: str) -> bool:
+        def create(st):
+            ans = []
+            for ch in st:
+                if ch == '#':
+                    ans.pop()
+                else:
+                    ans.append(ch)
+            return ''.join(ans)
+
+        return create(s) == create(t)
+
+    def frequencySort(self, s: str) -> str:
+        counter = [0] * 256
+
+        for c in s:
+            counter[ord(c)] += 1
+        ans = ""
+        sumi = sum(counter)
+        while sumi > 0:
+            index_max = max(range(len(counter)), key=counter.__getitem__)
+            ans += chr(index_max) * counter[index_max]
+            sumi -= counter[index_max]
+            counter[index_max] = 0
+        return ans
+
+    def countNicePairs(self, nums: List[int]) -> int:
+        mod = 10 ** 9 + 7
+        ans = 0
+        count = defaultdict(int)
+        for num in nums:
+            num -= int(str(num)[::-1])
+            ans += count[num]
+            count[num] += 1
+        return ans % mod
+
+    def sequentialDigits(self, low: int, high: int) -> List[int]:
+        path = "123456789"
+        start, end = len(str(low)), len(str(high))
+        res = []
+        for i in range(end - start + 1):
+            for j in range(len(path) + 1 - (start + i)):
+                temp = int(path[j:start + i + j])
+                if low <= temp <= high:
+                    res.append(temp)
+        return res
+
+    def rearrangeArray(self, nums: List[int]) -> List[int]:
+        pos, neg, res = [], [], []
+        for num in nums:
+            if num > 0:
+                pos.append(num)
+            else:
+                neg.append(num)
+        i_p, i_n = 0, 0
+        for i in range(len(nums)):
+            if i % 2 == 0:
+                nums[i] = pos[i_p]
+                i_p += 1
+            else:
+                nums[i] = neg[i_n]
+                i_n += 1
+        return nums
+
+    def totalMoney(self, n: int) -> int:
+        start = 1
+        res = 0
+        for i in range(0, n, 7):
+            res += sum(range(start, min(start + 7, n - i + start)))
+            start += 1
+        return res
+
+    def largestGoodInteger(self, num: str) -> str:
+        ans = ""
+        for i in range(len(num) - 2):
+            if num[i] == num[i + 1] and num[i + 1] == num[i + 2]:
+                if not ans or int(ans) < int(num[i:i + 3]):
+                    ans = num[i:i + 3]
+
+        return ans
+
+    def longestStrChain(self, words: List[str]) -> int:
+        words.sort(key=len)
+        d = {word: 1 for word in words}
+        for word in words:
+            ls_word = list(word)
+            for i in range(len(ls_word)):
+                temp = ls_word[:]
+                temp.pop(i)
+                temp_word = ''.join(temp)
+                if temp_word in d:
+                    d[word] = max(d[temp_word] + 1, d[word])
+        return max(d.values())
 
 
 # print(Solution().findWinners(matches=[[1, 3], [2, 3], [3, 6], [5, 6], [5, 7], [4, 5], [4, 8], [4, 9], [10, 4], [10, 9]]))
+
+# print(Solution().sequentialDigits(low=1000, high=13000))
 # print(Solution().dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]))
+# print(Solution().rearrangeArray([19, -26, -37, -10, -9, 15, 14, 31]))
 # print(Solution().divideArray(nums=[1, 3, 4, 8, 7, 9, 3, 5, 1], k=2))
+# print(Solution().longestStrChain(["a", "b", "ba", "bca", "bda", "bdca"]))
+print(Solution().longestStrChain(["xbc", "pcxbcf", "xb", "cxbc", "pcxbc"]))
+# print(Solution().largestGoodInteger("6777133338889"))
+# print(Solution().totalMoney(20))
 # print(Solution().countPalindromicSubsequence("bbcbaba"))
 # print(Solution().minLength("ABFCACDB"))
+# print(Solution().frequencySort("cccaaa"))
+# print(Solution().backspaceCompare("ab##", 'c#d#'))
 # print(Solution().minCostClimbingStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]))
 # print(Solution().minCostClimbingStairs([10,15,20]))
-
+# print(Solution().countNicePairs([13, 10, 35, 24, 76]))
 # print(Solution().longestCommonSubsequence(text1="abcde", text2="ace"))
 # print(Solution().findTheDifference(s="bcab", t="bcabe"))
 # print(Solution().findTheDifference(s="bcabc"))
