@@ -531,15 +531,123 @@ class Solution:
                     d[word] = max(d[temp_word] + 1, d[word])
         return max(d.values())
 
+    def strStr(self, haystack: str, needle: str) -> int:
+        try:
+            i = haystack.index(needle)
+        except:
+            i = -1
+        return i
 
+    def wordPattern(self, pattern: str, s: str) -> bool:
+        d = {}
+        words = s.split()
+        for i in range(len(words)):
+            if pattern[i] in d:
+                if d[pattern[i]] != words[i]:
+                    return False
+            else:
+                d[pattern[i]] = words[i]
+        return True
+
+    def plusOne(self, digits: List[int]) -> List[int]:
+        end = len(digits) - 1
+        while end >= 0:
+
+            digits[end] += 1
+            if digits[end] != 10:
+                break
+            else:
+                digits[end] = 0
+                if end == 0:
+                    digits.insert(0, 1)
+                end -= 1
+
+        return digits
+
+    def minPartitions(self, n: str) -> int:
+        return int(max(list(n)))
+
+    def groupThePeople(self, groupSizes: List[int]) -> List[List[int]]:
+        d = defaultdict(list)
+        ans = []
+        for i, g in enumerate(groupSizes):
+            d[g].append(i)
+            if len(d[g]) == g:
+                ans.append(d[g][:])
+                d[g] = []
+        return ans
+
+    def isStrictlyPalindromic(self, n: int) -> bool:
+
+        def to_base(num, base):
+            if num == 0:
+                return '0'
+            digits = []
+            while num:
+                digits.append(str(num % base))
+                num //= base
+            return ''.join(digits[::-1])
+
+        for i in range(2, n - 1):
+            temp = to_base(n, i)
+            if temp != temp[::-1]:
+                return False
+        return True
+
+    def sortVowels(self, s: str) -> str:
+        index = []
+        vowels = []
+        types = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
+        for i in range(len(s)):
+            if s[i] in types:
+                vowels.append(s[i])
+                index.append(i)
+
+        vowels.sort()
+        st = list(s)
+        for i in range(len(index)):
+            st[index[i]] = vowels[i]
+        return ''.join(st)
+
+    def islandPerimeter(self, grid: List[List[int]]) -> int:
+        count = 0
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    if i - 1 < 0:
+                        count += 1
+                    elif grid[i - 1][j] == 0:
+                        count += 1
+
+                    if i + 1 >= len(grid):
+                        count += 1
+                    elif grid[i + 1][j] == 0:
+                        count += 1
+
+                    if j - 1 < 0:
+                        count += 1
+                    elif grid[i][j - 1] == 0:
+                        count += 1
+
+                    if j + 1 >= len(grid[0]):
+                        count += 1
+                    elif grid[i][j + 1] == 0:
+                        count += 1
+        return count
+
+# print(Solution().plusOne([9,9,9]))
+print(Solution().islandPerimeter([[1,1]]))
+# print(Solution().sortVowels("lEetcOde"))
+# print(Solution().groupThePeople([3, 3, 3, 3, 3, 1, 3]))
 # print(Solution().findWinners(matches=[[1, 3], [2, 3], [3, 6], [5, 6], [5, 7], [4, 5], [4, 8], [4, 9], [10, 4], [10, 9]]))
-
 # print(Solution().sequentialDigits(low=1000, high=13000))
+# print(Solution().strStr(haystack="sadbutsad", needle="sad"))
+# print(Solution().wordPattern(pattern="abba", s="dog dog dog dog"))
 # print(Solution().dailyTemperatures([73, 74, 75, 71, 69, 72, 76, 73]))
 # print(Solution().rearrangeArray([19, -26, -37, -10, -9, 15, 14, 31]))
 # print(Solution().divideArray(nums=[1, 3, 4, 8, 7, 9, 3, 5, 1], k=2))
 # print(Solution().longestStrChain(["a", "b", "ba", "bca", "bda", "bdca"]))
-print(Solution().longestStrChain(["xbc", "pcxbcf", "xb", "cxbc", "pcxbc"]))
+# print(Solution().longestStrChain(["xbc", "pcxbcf", "xb", "cxbc", "pcxbc"]))
 # print(Solution().largestGoodInteger("6777133338889"))
 # print(Solution().totalMoney(20))
 # print(Solution().countPalindromicSubsequence("bbcbaba"))

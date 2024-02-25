@@ -154,7 +154,28 @@ class Solution:
             ans.append(max(temp))
         return ans
 
+    def averageOfSubtree2265(self, root: Optional[TreeNode]) -> int:
+        self.cnt = 0
 
+        def dfs(node):
+            if not node:
+                return 0, 0  # return sum and count of nodes as 0
+
+            left_sum, left_count = dfs(node.left)
+            right_sum, right_count = dfs(node.right)
+
+            # Calculate total sum and count for current subtree
+            total_sum = node.val + left_sum + right_sum
+            total_count = 1 + left_count + right_count
+
+            # Check if average of current subtree (rounded down) equals the node's value
+            if total_sum // total_count == node.val:
+                self.cnt += 1
+
+            return total_sum, total_count
+
+        dfs(root)
+        return self.cnt
 import time
 
 # import datetime
@@ -180,5 +201,6 @@ a = TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5)),
 # print(Solution().evalRPN(["10","6","9","3","+","-11","*","/","*","17","+","5","+"]))
 # print(Solution().evalRPN(["4","13","5","/","+"]))
 # print(Solution().isBalanced(a))
-print(Solution().largestValues(a))
+# print(Solution().largestValues(a))
+print(Solution().averageOfSubtree2265(a))
 # print(Solution().leafSimilar(a, a))
