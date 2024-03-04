@@ -635,8 +635,61 @@ class Solution:
                         count += 1
         return count
 
+    def peakIndexInMountainArray(self, arr: List[int]) -> int:
+        start, end = 1, len(arr) - 2
+        while start <= end:
+            mid = (end - start) // 2 + start
+            if arr[mid - 1] < arr[mid] and arr[mid] > arr[mid + 1]:
+                return mid
+            if arr[mid - 1] < arr[mid] and arr[mid] < arr[mid + 1]:
+                start = mid + 1
+            else:
+                end = mid
+
+    def numSplits(self, s: str) -> int:
+        count = 0
+        s1 = defaultdict(int)
+        s2 = Counter(s)
+
+        for i in range(len(s)):
+            s1[s[i]] += 1
+            s2[s[i]] -= 1
+            if s2[s[i]] == 0:
+                del s2[s[i]]
+            if len(s1) == len(s2):
+                count += 1
+                # print(s1, s2)
+        return count
+
+    def removeOccurrences(self, s: str, part: str) -> str:
+        n = len(part)
+        while True:
+            try:
+                index = s.index(part)
+                s = s[:index] + s[index + n:]
+            except:
+                break
+        return s
+
+    def minOperations(self, n: int) -> int:
+        arr = [2 * i + 1 for i in range(n)]
+        mid = n // 2
+        count = 0
+        if n % 2 == 0:
+            mid -= 1
+            arr[mid] += 1
+            count += 1
+        for i in range(mid):
+            count += arr[mid] - arr[i]
+        return count
+
+
+print(Solution().minOperations(5))
+# print(Solution().removeOccurrences(s="daabcbaabcbc", part="abc"))
+# print(Solution().numSplits("aacaba"))
 # print(Solution().plusOne([9,9,9]))
-print(Solution().islandPerimeter([[1,1]]))
+# print(Solution().islandPerimeter([[1, 1]]))
+# print(Solution().peakIndexInMountainArray([0,3,2, 1, 0]))
 # print(Solution().sortVowels("lEetcOde"))
 # print(Solution().groupThePeople([3, 3, 3, 3, 3, 1, 3]))
 # print(Solution().findWinners(matches=[[1, 3], [2, 3], [3, 6], [5, 6], [5, 7], [4, 5], [4, 8], [4, 9], [10, 4], [10, 9]]))

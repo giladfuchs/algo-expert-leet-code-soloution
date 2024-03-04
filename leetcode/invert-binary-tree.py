@@ -176,7 +176,30 @@ class Solution:
 
         dfs(root)
         return self.cnt
-import time
+
+    def tree2str(self, root: Optional[TreeNode]) -> str:
+
+        def dfs(node):
+            if node is None:
+                return ""
+            left = '(' + dfs(node.left) + ')' if node.left or node.right else ""
+            right = '(' + dfs(node.right) + ')' if node.right else ""
+            return f'{node.val}{left}{right}'
+
+        return dfs(root)
+
+    def isSymmetric(self, root: Optional[TreeNode]) -> bool:
+        def check(r, l):
+            if not r and not l:
+                return True
+            if not r or not l:
+                return False
+            return r.val == l.val and check(r.left, l.right) and check(r.right, l.left)
+
+        return check(root.left, root.right)
+
+
+# import time
 
 # import datetime
 # def a(x,y):
@@ -202,5 +225,11 @@ a = TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5)),
 # print(Solution().evalRPN(["4","13","5","/","+"]))
 # print(Solution().isBalanced(a))
 # print(Solution().largestValues(a))
-print(Solution().averageOfSubtree2265(a))
+a = TreeNode(1, TreeNode(2, None, TreeNode(4)),
+             TreeNode(3, ))
+b = TreeNode(1, TreeNode(2, TreeNode(4), ),
+             TreeNode(3, ))
+print(Solution().tree2str(a))
+print(Solution().tree2str(b))
+# print(Solution().averageOfSubtree2265(a))
 # print(Solution().leafSimilar(a, a))

@@ -61,6 +61,20 @@ def waysToChooseSum(lowLimit, highLimit):
     winners = max_value
     return [ways, winners]
 
+from collections import defaultdict
+
+
+def solution(arr):
+    d = defaultdict(list)
+    d[arr[0] + arr[1]].append(0)
+    for i in range(1, len(arr) - 1):
+        temp1 = arr[i] + arr[i + 1]
+        if i - 1 not in d[temp1]:
+            d[temp1].append(i)
+
+    return len(max(d.values(), key=len))
+
+
 
 if __name__ == '__main__':
     # print(getCapitalCity('spain'))
@@ -69,3 +83,7 @@ if __name__ == '__main__':
     # print(waysToChooseSum(1, 5))
     # print(findMaxNum(44, 48, 6))
     # print(findMaxNum(8,5,3))
+
+    print(solution([10, 1, 3, 1, 2, 2, 1, 0, 4]))
+    print(solution([9, 9, 9, 9, 9]))
+    print(solution([1, 5, 2, 4, 3, 3]))
