@@ -198,6 +198,25 @@ class Solution:
 
         return check(root.left, root.right)
 
+    def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
+        even = True
+        q = [root]
+        while q:
+            prev = float('-inf') if even else float('inf')
+            for _ in range(len(q)):
+                node = q.pop(0)
+                if even and (node.val <= prev or node.val % 2 == 0):
+                    return False
+                if not even and (node.val >= prev or node.val % 2 == 1):
+                    return False
+                if node.right:
+                    q.append(node.right)
+                if node.left:
+                    q.append(node.left)
+                prev = node.val
+            even = not even
+        return True
+
 
 # import time
 

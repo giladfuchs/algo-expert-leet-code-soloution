@@ -6,6 +6,7 @@ class ListNode:
 
 from typing import Optional, List
 import queue
+from math import gcd
 
 
 class Solution:
@@ -32,6 +33,18 @@ class Solution:
 
         return head
 
+    def insertGreatestCommonDivisors(self, head: Optional[ListNode]) -> Optional[ListNode]:
+
+        curr = prev = head
+        curr = curr.next
+        while curr:
+            temp = ListNode(gcd(curr.val, prev.val))
+            prev.next = temp
+            temp.next = curr
+            prev = curr
+            curr = curr.next
+        return head
+
 
 # [1,4,5],[1,3,4],[2,6]
 lst = [
@@ -39,4 +52,4 @@ lst = [
     ListNode(1, ListNode(3, ListNode(4))),
     ListNode(2, ListNode(6)),
 ]
-print(Solution().mergeKLists(lst))
+# print(Solution().mergeKLists(lst))
